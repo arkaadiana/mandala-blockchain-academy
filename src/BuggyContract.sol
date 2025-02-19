@@ -7,6 +7,8 @@ contract BuggyContract {
     bool public isPaused;
     address private owner;
 
+    error InvalidNumber(uint256 number);
+
     modifier onlyOwner() {
         require(msg.sender == owner);
         _;
@@ -45,11 +47,8 @@ contract BuggyContract {
     // Think about how to make the loop more efficient
     // and read the compiler
     function sumNumbers(uint n) public pure returns (uint) {
-        uint sum = 0;
-        for (uint i = 1; i <= n; i++) {
-            sum += i;
-        }
-        return sum;
+        if (n == 0) revert InvalidNumber(n);
+        return (n * (n + 1)) / 2;
     }
 
     // Bug 7
